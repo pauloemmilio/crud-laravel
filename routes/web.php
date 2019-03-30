@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('frase', 'FraseController');
+Route::get('/frase/excluir/{id}', 'FraseController@destroy');
 
 Auth::routes();
 

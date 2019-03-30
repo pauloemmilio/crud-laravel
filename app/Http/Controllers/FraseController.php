@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\FraseModel;
 
 class FraseController extends Controller
 {
@@ -13,7 +14,7 @@ class FraseController extends Controller
      */
     public function index()
     {
-        return view ('index');
+        return view ('index', ['frases' => FraseModel::all()]);
     }
 
     /**
@@ -34,8 +35,11 @@ class FraseController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        return view ('index');
+        $frase = new FraseModel();
+        $frase->frase = $request->input('frase');
+        $frase->autor = $request->input('autor');
+        $frase->save();
+        return view ('index', ['frases' => FraseModel::all()]);
     }
 
     /**
@@ -46,7 +50,8 @@ class FraseController extends Controller
      */
     public function show($id)
     {
-        //
+        $frase = FraseModel::find($id);
+        return view ('formEditar', ['frase' => $frase]);
     }
 
     /**
@@ -57,7 +62,8 @@ class FraseController extends Controller
      */
     public function edit($id)
     {
-        //
+        $frase = FraseModel::find($id);
+        return view ('formEditar', ['frase' => $frase]);
     }
 
     /**
@@ -69,7 +75,11 @@ class FraseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $frase = FraseModel::find($id);
+        $frase->frase = $request->input('frase');
+        $frase->autor = $request->input('autor');
+        $frase->save();
+        return view ('index', ['frases' => FraseModel::all()]);
     }
 
     /**
@@ -80,6 +90,8 @@ class FraseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $frase = FraseModel::find($id);
+        $frase->delete();
+        return view ('index', ['frases' => FraseModel::all()]);
     }
 }
